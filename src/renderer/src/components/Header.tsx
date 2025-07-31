@@ -1,9 +1,10 @@
+import Title from 'antd/es/typography/Title'
 import { FC } from 'react'
 
 const Header: FC = () => {
   return (
     <div className="header_container">
-      <p>Move Cursor</p>
+      <Title>Move Cursor</Title>
     </div>
   )
 }

@@ -3,7 +3,8 @@ import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
 const api = {
-  moveMouse: (x: number, y: number) => ipcRenderer.invoke('move-mouse', x, y),
+  moveMouseSmooth: (x: number, y: number, speed: number) =>
+    ipcRenderer.invoke('move-mouse-smooth', x, y, speed),
   getMousePosition: () => ipcRenderer.invoke('get-mouse-position')
 }
 

@@ -51,8 +51,8 @@ app.whenReady().then(() => {
   })
 
   // IPC test
-  ipcMain.handle('move-mouse', (_event, x: number, y: number) => {
-    moveMouseSmooth(x, y, 5)
+  ipcMain.handle('move-mouse-smooth', (_event, x: number, y: number, speed: number) => {
+    moveMouseSmooth(x, y, speed)
   })
 
   ipcMain.handle('get-mouse-position', () => {
