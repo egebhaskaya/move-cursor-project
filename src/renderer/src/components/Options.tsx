@@ -17,7 +17,11 @@ const Options: FC = () => {
         }}
       />
 
-      {tabIndex === 'Speed' && <div>Speed Options</div>}
+      {tabIndex === 'Speed' && (
+        <div>
+          <div></div>
+        </div>
+      )}
       {tabIndex === 'Shape' && <div>Shape Options</div>}
       {tabIndex === 'Interval' && <div>Interval Options</div>}
 
