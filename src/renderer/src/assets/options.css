@@ -4,3 +4,8 @@
   align-items: start;
   gap: 20px;
 }
+
+.button-container {
+  display: flex;
+  gap: 10px;
+}

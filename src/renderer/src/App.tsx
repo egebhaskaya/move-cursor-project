@@ -6,6 +6,9 @@ declare global {
   interface Window {
     api: {
       moveMouseSmooth: (x: number, y: number, speed: number) => void
+      getMousePosition: () => Promise<{ x: number; y: number }>
+      setMouseDelay: (delay: number) => void
+      getScreenCenter: () => Promise<{ x: number; y: number }>
     }
   }
 }

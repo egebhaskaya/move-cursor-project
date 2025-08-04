@@ -2,13 +2,13 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { moveMouseSmooth, getMousePos } from 'robotjs'
+import { moveMouseSmooth, getMousePos, setMouseDelay, getScreenSize } from 'robotjs'
 
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 700,
+    height: 300,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -57,6 +57,15 @@ app.whenReady().then(() => {
 
   ipcMain.handle('get-mouse-position', () => {
     return getMousePos()
+  })
+
+  ipcMain.handle('set-mouse-delay', (_event, delay: number) => {
+    setMouseDelay(delay)
+  })
+
+  ipcMain.handle('get-screen-center', () => {
+    const { width, height } = getScreenSize()
+    return { x: width / 2, y: height / 2 }
   })
 
   createWindow()

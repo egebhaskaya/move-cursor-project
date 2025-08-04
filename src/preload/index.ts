@@ -5,7 +5,9 @@ import { electronAPI } from '@electron-toolkit/preload'
 const api = {
   moveMouseSmooth: (x: number, y: number, speed: number) =>
     ipcRenderer.invoke('move-mouse-smooth', x, y, speed),
-  getMousePosition: () => ipcRenderer.invoke('get-mouse-position')
+  getMousePosition: () => ipcRenderer.invoke('get-mouse-position'),
+  setMouseDelay: (delay: number) => ipcRenderer.invoke('set-mouse-delay', delay),
+  getScreenCenter: () => ipcRenderer.invoke('get-screen-center')
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
