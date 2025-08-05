@@ -5,6 +5,10 @@
   "main": "./out/main/index.js",
   "author": "movecursor.com",
   "homepage": "https://movecursor.com",
+  "build": {
+    "appId": "com.movecursor.movecursor",
+    "productName": "MoveCursor"
+  },
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --cache .",
