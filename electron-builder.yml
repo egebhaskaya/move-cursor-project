@@ -13,21 +13,55 @@ asarUnpack:
   - resources/**
 win:
   executableName: move-cursor-project
+  # Disable code signing for Windows - using proper configuration
+  signAndEditExecutable: false
+  # Disable certificate verification
+  verifyUpdateCodeSignature: false
+  target:
+    - target: nsis
+      arch:
+        - x64
+        - ia32
+    - target: portable
+      arch:
+        - x64
+        - ia32
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
+  # Allow running without admin privileges
+  oneClick: false
+  allowToChangeInstallationDirectory: true
 mac:
+  # Disable code signing for macOS
+  identity: null
+  # Disable notarization
+  notarize: false
+  # Disable hardened runtime
+  hardenedRuntime: false
+  # Disable gatekeeper
+  gatekeeperAssess: false
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
     - NSCameraUsageDescription: Application requests access to the device's camera.
     - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
     - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
     - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
-  notarize: false
+  target:
+    - target: dmg
+      arch:
+        - x64
+        - arm64
+    - target: zip
+      arch:
+        - x64
+        - arm64
 dmg:
   artifactName: ${name}-${version}.${ext}
+  # Disable code signing for DMG
+  sign: false
 linux:
   target:
     - AppImage
@@ -38,6 +72,5 @@ linux:
 appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
-publish:
-  provider: generic
-  url: https://example.com/auto-updates
+# Disable publishing for now
+publish: null
