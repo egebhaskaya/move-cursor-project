@@ -4,9 +4,9 @@ import { FC, useState } from 'react'
 const Options: FC = () => {
   const [tabIndex, setTabIndex] = useState('Speed')
 
-  const [speedValue, setSpeedValue] = useState<number>(6)
-  const [shapeValue, setShapeValue] = useState<string>('Circle')
-  const [intervalValue, setIntervalValue] = useState<number>(30)
+  const [speedValue, setSpeedValue] = useState<number>(2)
+  const [shapeValue, setShapeValue] = useState<string>('Square')
+  const [intervalValue, setIntervalValue] = useState<number>(180)
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null)
 
   const onChangeSpeed = (e: import('antd').RadioChangeEvent): void => {
@@ -20,8 +20,6 @@ const Options: FC = () => {
   const onChangeInterval = (e: import('antd').RadioChangeEvent): void => {
     setIntervalValue(e.target.value)
   }
-
-  console.log(intervalId)
 
   const moveMouse = (): void => {
     if (shapeValue === 'Circle') {
