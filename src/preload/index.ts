@@ -7,7 +7,8 @@ const api = {
     ipcRenderer.invoke('move-mouse-smooth', x, y, speed),
   getMousePosition: () => ipcRenderer.invoke('get-mouse-position'),
   setMouseDelay: (delay: number) => ipcRenderer.invoke('set-mouse-delay', delay),
-  getScreenCenter: () => ipcRenderer.invoke('get-screen-center')
+  getScreenCenter: () => ipcRenderer.invoke('get-screen-center'),
+  getCurrentDisplayBounds: () => ipcRenderer.invoke('get-current-display-bounds')
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

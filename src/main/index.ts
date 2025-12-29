@@ -1,8 +1,8 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, screen } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { moveMouseSmooth, getMousePos, setMouseDelay } from 'robotjs'
+import { moveMouseSmooth, moveMouse, getMousePos, setMouseDelay } from 'robotjs'
 
 function createWindow(): void {
   // Create the browser window.
@@ -50,9 +50,26 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
+  // IPC handlers for mouse movement
   ipcMain.handle('move-mouse-smooth', (_event, x: number, y: number, speed: number) => {
-    moveMouseSmooth(x, y, speed)
+    // moveMouseSmooth has issues on macOS multi-monitor setups
+    // Use moveMouse with manual interpolation instead
+    if (process.platform === 'darwin') {
+      const current = screen.getCursorScreenPoint()
+      const steps = Math.max(10, Math.floor(speed * 5))
+      const dx = (x - current.x) / steps
+      const dy = (y - current.y) / steps
+
+      for (let i = 1; i <= steps; i++) {
+        const newX = Math.round(current.x + dx * i)
+        const newY = Math.round(current.y + dy * i)
+        moveMouse(newX, newY)
+      }
+      // Ensure we end exactly at target
+      moveMouse(Math.round(x), Math.round(y))
+    } else {
+      moveMouseSmooth(x, y, speed)
+    }
   })
 
   ipcMain.handle('get-mouse-position', () => {
@@ -64,9 +81,22 @@ app.whenReady().then(() => {
   })
 
   ipcMain.handle('get-screen-center', () => {
-    // Use current mouse position as center to support multiple monitors
-    const { x, y } = getMousePos()
-    return { x, y }
+    // Use Electron's screen API for reliable multi-monitor support
+    // This properly handles different display scales and arrangements
+    const cursorPoint = screen.getCursorScreenPoint()
+    return { x: cursorPoint.x, y: cursorPoint.y }
+  })
+
+  ipcMain.handle('get-current-display-bounds', () => {
+    // Get the display that contains the current cursor position
+    const cursorPoint = screen.getCursorScreenPoint()
+    const currentDisplay = screen.getDisplayNearestPoint(cursorPoint)
+    return {
+      cursor: cursorPoint,
+      bounds: currentDisplay.bounds,
+      workArea: currentDisplay.workArea,
+      scaleFactor: currentDisplay.scaleFactor
+    }
   })
 
   createWindow()
