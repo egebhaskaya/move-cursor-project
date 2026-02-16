@@ -3,12 +3,8 @@ import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
 const api = {
-  moveMouseSmooth: (x: number, y: number, speed: number) =>
-    ipcRenderer.invoke('move-mouse-smooth', x, y, speed),
-  getMousePosition: () => ipcRenderer.invoke('get-mouse-position'),
-  setMouseDelay: (delay: number) => ipcRenderer.invoke('set-mouse-delay', delay),
-  getScreenCenter: () => ipcRenderer.invoke('get-screen-center'),
-  getCurrentDisplayBounds: () => ipcRenderer.invoke('get-current-display-bounds')
+  startKeepAwake: () => ipcRenderer.invoke('start-keep-awake'),
+  stopKeepAwake: () => ipcRenderer.invoke('stop-keep-awake')
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
